@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@500;600&display=swap');
+@import "tailwindcss";
+
+/* ═════════════ ShioniPay · "Ink & Lime" design system ═════════════ */
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "DM Sans", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink: #0E1B14;        /* deep green-black */
+  --color-charcoal: #16261D;   /* raised dark surface */
+  --color-brand: #C8F04A;      /* electric lime */
+  --color-brand-hover: #D6F76E;
+  --color-brand-dark: #8DB31A;
+  --color-muted: #9FB0A5;      /* text on dark */
+  --color-line: rgba(14, 27, 20, 0.12);
+  --color-fg: #0E1B14;
+  --color-soft: #ECEBE3;
+  --color-sub: #4D5C54;
+  --color-paper: #F5F4EE;
+
+  /* supporting palette: remapped ramps so every accent stays on-theme */
+  --color-teal-50: #EEF6F1; --color-teal-100: #D5EADD; --color-teal-200: #ADD5BE; --color-teal-300: #7DBB98; --color-teal-400: #4F9D74;
+  --color-teal-500: #2F7F58; --color-teal-600: #1F6646; --color-teal-700: #185139; --color-teal-800: #13402E; --color-teal-900: #0F3325; --color-teal-950: #081C14;
+  --color-emerald-50: #F4F6EE; --color-emerald-100: #E6EBD8; --color-emerald-200: #CDD8B3; --color-emerald-300: #AFBF87; --color-emerald-400: #92A661;
+  --color-emerald-500: #778B45; --color-emerald-600: #5E7035; --color-emerald-700: #4A582B; --color-emerald-800: #3D4826; --color-emerald-900: #343D23; --color-emerald-950: #1A2010;
+  --color-pink-50: #FBF3EE; --color-pink-100: #F6E2D6; --color-pink-200: #ECC3AB; --color-pink-300: #E09D78; --color-pink-400: #D27A4E;
+  --color-pink-500: #C15F33; --color-pink-600: #A64B27; --color-pink-700: #873C22; --color-pink-800: #6E3321; --color-pink-900: #5B2C1E; --color-pink-950: #31150D;
+
+  /* sharper, more editorial corners */
+  --radius-lg: 0.375rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.75rem;
+  --radius-3xl: 1rem;
+}
+
+html { scroll-behavior: smooth; background: #F5F4EE; }
+body { @apply bg-paper text-fg antialiased font-sans; }
+::selection { background: #C8F04A; color: #0E1B14; }
+h1, h2, h3 { letter-spacing: -0.02em; }
+
+/* ── motion ── */
+/* scroll reveal: short, subtle fade */
+.reveal { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* orbit */
+@keyframes spin { to { transform: rotate(360deg); } }
+.orbit-cw { animation: spin 40s linear infinite; }
+.orbit-ccw { animation: spin 40s linear infinite reverse; }
+.orbit-wrap:hover .orbit-cw, .orbit-wrap:hover .orbit-ccw { animation-play-state: paused; }
+@keyframes ripple { 0% { transform: scale(1); opacity: .9; } 100% { transform: scale(2.1); opacity: 0; } }
+.ripple { animation: ripple 2.4s cubic-bezier(.2,.6,.3,1) infinite; }
+.spin-slow { animation: spin 26s linear infinite; }
+@keyframes bob { 0%,100% { transform: translateY(0) rotate(var(--r,0deg)); } 50% { transform: translateY(-8px) rotate(calc(var(--r,0deg) + 4deg)); } }
+.bob { animation: bob 5.5s ease-in-out infinite; }
+
+/* hero headline: each line rises from behind a mask */
+@keyframes rise { from { transform: translateY(110%); } to { transform: none; } }
+.line-mask { display: block; overflow: hidden; padding-bottom: .06em; }
+.line-mask > span { display: inline-block; animation: rise .9s cubic-bezier(.16,1,.3,1) both; }
+@keyframes stamp { 0% { transform: scale(1.25) rotate(-6deg); opacity: 0; } 60% { transform: scale(.96) rotate(-1deg); opacity: 1; } 100% { transform: rotate(-1deg); } }
+.stamp { animation: stamp .7s cubic-bezier(.2,.8,.2,1) .55s both; }
+@keyframes floaty { 0%,100% { transform: translateY(0) rotate(var(--r,0deg)); } 50% { transform: translateY(-10px) rotate(var(--r,0deg)); } }
+.floaty { animation: floaty 7s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 0 rgba(200,240,74,.75);} 50% { box-shadow: 0 0 0 7px rgba(200,240,74,0);} }
+.pulse-dot { animation: pulse-dot 2s infinite; }
+@keyframes dropIn { from { opacity: 0; transform: translateY(-6px);} to { opacity: 1; transform: none; } }
+.drop-in { animation: dropIn .18s ease-out; }
+@keyframes typing { 0%,80%,100% { opacity: .3; transform: translateY(0);} 40% { opacity: 1; transform: translateY(-3px);} }
+.typing span { animation: typing 1.2s infinite; }
+.typing span:nth-child(2) { animation-delay: .15s; }
+.typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes sheen { from { transform: translateX(-100%);} to { transform: translateX(100%);} }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes drift { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.marquee { animation: marquee 38s linear infinite; }
+.marquee:hover { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .floaty, .orbit-cw, .orbit-ccw, .ripple, .spin-slow, .bob, .line-mask > span, .stamp { animation: none !important; }
+  .reveal { opacity: 1; transform: none; filter: none; }
+}
+
+/* ── surfaces ── */
+.grid-bg { background-image: linear-gradient(rgba(14,27,20,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(14,27,20,.06) 1px, transparent 1px); background-size: 40px 40px; }
+.grid-bg-dark { background-image: linear-gradient(rgba(200,240,74,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(200,240,74,.07) 1px, transparent 1px); background-size: 40px 40px; }
+.red-glow { background: radial-gradient(closest-side, rgba(200,240,74,.22), transparent); }
+.card { @apply rounded-2xl bg-white border border-line transition-all duration-200; }
+.card-hover { @apply hover:-translate-x-[3px] hover:-translate-y-[3px] hover:border-ink hover:shadow-[5px_5px_0_#0E1B14]; }
+.input { @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-fg placeholder:text-sub/50 outline-none transition focus:border-ink focus:shadow-[3px_3px_0_#C8F04A]; }
+
+/* ── accents ── */
+.rainbow-line { background: repeating-linear-gradient(90deg, #C8F04A 0 40px, #0E1B14 40px 48px); }
+.text-gradient { color: inherit; background: linear-gradient(transparent 58%, #C8F04A 58%, #C8F04A 92%, transparent 92%); -webkit-box-decoration-break: clone; box-decoration-break: clone; padding: 0 .08em; }
+.text-gradient-cool { color: #1F6646; }
+.text-lime-hl { background: #C8F04A; color: #0E1B14; padding: 0 .18em; border-radius: .25rem; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+
+/* buttons: lime slab with an ink offset shadow */
+.btn-grad { background: #C8F04A !important; color: #0E1B14 !important; border: 1.5px solid #0E1B14; box-shadow: 3px 3px 0 #0E1B14 !important; transition: transform .15s ease, box-shadow .15s ease, background .2s ease; }
+.btn-grad:hover { background: #D6F76E !important; transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #0E1B14 !important; }
+.btn-grad:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 #0E1B14 !important; }
+.grad-emerald { background: #1F6646; }
+.grad-ember { background: #0E1B14; color: #C8F04A !important; }
+.grad-sunset { background: #E9B949; }
+
+/* hero mesh: soft lime + forest light with fine dots */
+.mesh-hero {
+  background:
+    radial-gradient(rgba(14,27,20,.08) 1px, transparent 1.3px) 0 0 / 22px 22px,
+    radial-gradient(40% 55% at 85% 15%, rgba(200,240,74,.28), transparent 70%),
+    radial-gradient(35% 50% at 10% 90%, rgba(47,127,88,.12), transparent 70%),
+    radial-gradient(30% 40% at 55% 45%, rgba(233,185,73,.10), transparent 70%);
+}
+
+/* dark sections */
+.night { background: radial-gradient(55% 75% at 100% 0%, rgba(200,240,74,.16), transparent 60%), radial-gradient(45% 65% at 0% 100%, rgba(47,127,88,.30), transparent 60%), #0E1B14; }
+.aurora-dark { background: radial-gradient(40% 70% at 10% 0%, rgba(200,240,74,.10), transparent 70%), radial-gradient(40% 70% at 90% 0%, rgba(47,127,88,.25), transparent 70%), radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.3px) 0 0 / 22px 22px; }
+
+/* ═════════ section backgrounds: paper tints + one pattern each ═════════ */
+[class*="wash-"] { position: relative; isolation: isolate; }
+[class*="wash-"]::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent 35%, transparent 65%, #000); mask-image: linear-gradient(180deg, #000, transparent 35%, transparent 65%, #000); }
+
+.wash-sand    { background: #F7F1E1; }  /* mustard paper · dots */
+.wash-sand::after    { background-image: radial-gradient(rgba(166,124,26,.30) 1.2px, transparent 1.4px); background-size: 20px 20px; }
+.wash-mint    { background: #EEF4EC; }  /* forest paper · diagonal hatch */
+.wash-mint::after    { background-image: repeating-linear-gradient(135deg, rgba(31,102,70,.14) 0 1px, transparent 1px 12px); }
+.wash-blush   { background: #F7EEE8; }  /* clay paper · plus marks */
+.wash-blush::after   { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath d='M15 11v8M11 15h8' stroke='%23A64B27' stroke-opacity='.28' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E"); background-size: 30px 30px; }
+.wash-warm    { background: #F5F4EE; }  /* plain paper · horizontal rules */
+.wash-warm::after    { background-image: repeating-linear-gradient(0deg, rgba(14,27,20,.07) 0 1px, transparent 1px 28px); }
+.wash-sage    { background: #EFF1E6; }  /* sage paper · grid */
+.wash-sage::after    { background-image: linear-gradient(rgba(94,112,53,.13) 1px, transparent 1px), linear-gradient(90deg, rgba(94,112,53,.13) 1px, transparent 1px); background-size: 28px 28px; }
+.wash-peach   { background: #F4F9E2; }  /* lime paper · waves */
+.wash-peach::after   { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='20'%3E%3Cpath d='M0 10c9 0 9-7 18-7s9 7 18 7 9-7 18-7 9 7 18 7' fill='none' stroke='%235E7035' stroke-opacity='.22' stroke-width='1.3'/%3E%3C/svg%3E"); background-size: 72px 20px; }
+.wash-sunrise { background: #FAF6EA; }  /* cream · small triangles */
+.wash-sunrise::after { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='30'%3E%3Cpath d='M17 10l5 9h-10z' fill='none' stroke='%23A67C1A' stroke-opacity='.26' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 34px 30px; }
